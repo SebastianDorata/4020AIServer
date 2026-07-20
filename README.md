@@ -19,4 +19,5 @@ TO-DO:
 - Redo db/query logic
 - Potentially create comparison charts, calculated macros vs ai macros of meal plans, etc.
 - See how close ai-generated plan adheres to calorie targets and macro goals
-- 
+- Connect to actual ai model to generate meal plans instead of using sample ones.
+- Optimize current prompt maybe.
