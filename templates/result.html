@@ -1,0 +1,241 @@
+{% include "header.html" %}
+
+<!-- Page Header -->
+<header
+        class="masthead"
+        style="background-image: url('../static/assets/img/result-bg.jpg')"
+>
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>Nutrition Profile</h1>
+                    <span class="subheading">
+                        Your personalized calorie and macro targets
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- Main Content -->
+<main class="mb-4">
+
+    <div class="container px-4 px-lg-5">
+
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+
+
+                <h2 class="text-center mb-4">
+                    Your Daily Targets
+                </h2>
+
+
+                <!-- Calories -->
+                <div class="card mb-4">
+                    <div class="card-body">
+
+                        <h4>Calorie Information</h4>
+
+                        <p>
+                            Estimated Maintenance Calories:
+                            <strong>{{ profile.tdee }} kcal</strong>
+                        </p>
+
+                        <p>
+                            Daily Calorie Target:
+                            <strong>{{ profile.target_calories }} kcal</strong>
+                        </p>
+
+                        <p>
+                            Goal:
+                            <strong>{{ profile.goal }}</strong>
+                        </p>
+
+                    </div>
+                </div>
+
+
+                <!-- Macros -->
+                <div class="card mb-4">
+                    <div class="card-body">
+
+                        <h4>Daily Macronutrients</h4>
+
+                        <div class="row text-center">
+
+                            <div class="col-md-4">
+                                <h5>Protein</h5>
+                                <strong>{{ profile.protein }} g</strong>
+                            </div>
+
+                            <div class="col-md-4">
+                                <h5>Carbohydrates</h5>
+                                <strong>{{ profile.carbs }} g</strong>
+                            </div>
+
+                            <div class="col-md-4">
+                                <h5>Fat</h5>
+                                <strong>{{ profile.fat }} g</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- User Info -->
+                <div class="card mb-4">
+                    <div class="card-body">
+
+                        <h4>User Information</h4>
+
+                        <p>Age:
+                            <strong>{{ profile.age }}</strong>
+                        </p>
+
+                        <p>Gender:
+                            <strong>{{ profile.gender.title() }}</strong>
+                        </p>
+
+                        <p>Height:
+                            <strong>{{ height_display }}ches</strong>
+                        </p>
+
+                        <p>Weight:
+                            <strong>{{ profile.weight_lbs }} lbs</strong>
+                        </p>
+
+                    </div>
+                </div>
+
+
+                <!-- AI Meal Plan -->
+                <h2 class="text-center mb-4">
+                    AI Meal Plan
+                </h2>
+
+                {% for meal in meal_plan.meals %}
+
+                <div class="card mb-4">
+
+                    <div class="card-body">
+
+                        <h4>{{ meal.meal_name }}</h4>
+
+                        <table class="table table-striped">
+
+                            <thead>
+
+                            <tr>
+                                <th>Food</th>
+                                <th>Grams</th>
+                                <th>Calories</th>
+                                <th>Protein</th>
+                                <th>Carbs</th>
+                                <th>Fat</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            {% for food in meal.nutrition.foods %}
+
+                            <tr>
+
+                                <td>{{ food.food }}</td>
+                                <td>{{ food.grams }}</td>
+                                <td>{{ food.calories }}</td>
+                                <td>{{ food.protein }}</td>
+                                <td>{{ food.carbs }}</td>
+                                <td>{{ food.fat }}</td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                        <hr>
+
+                        <div class="row text-center">
+
+                            <div class="col-md-3">
+                                <strong>Calories</strong><br>
+                                {{ meal.nutrition.total_calories }}
+                            </div>
+
+                            <div class="col-md-3">
+                                <strong>Protein</strong><br>
+                                {{ meal.nutrition.total_protein }} g
+                            </div>
+
+                            <div class="col-md-3">
+                                <strong>Carbs</strong><br>
+                                {{ meal.nutrition.total_carbs }} g
+                            </div>
+
+                            <div class="col-md-3">
+                                <strong>Fat</strong><br>
+                                {{ meal.nutrition.total_fat }} g
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+
+                <!-- Daily AI Totals -->
+                <div class="card mb-5">
+
+                    <div class="card-body">
+
+                        <h4>Daily Meal Totals</h4>
+
+                        <div class="row text-center">
+
+                            <div class="col-md-3">
+                                <strong>Calories</strong><br>
+                                {{ meal_plan.daily_totals.calories }}
+                            </div>
+
+                            <div class="col-md-3">
+                                <strong>Protein</strong><br>
+                                {{ meal_plan.daily_totals.protein }} g
+                            </div>
+
+                            <div class="col-md-3">
+                                <strong>Carbohydrates</strong><br>
+                                {{ meal_plan.daily_totals.carbs }} g
+                            </div>
+
+                            <div class="col-md-3">
+                                <strong>Fat</strong><br>
+                                {{ meal_plan.daily_totals.fat }} g
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+{% include "footer.html" %}

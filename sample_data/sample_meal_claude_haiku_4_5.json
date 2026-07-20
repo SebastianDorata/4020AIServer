@@ -1,0 +1,86 @@
+
+{
+  "meal_plan": [
+    {
+      "meal_name": "Breakfast",
+      "foods": [
+        {
+          "food": "scrambled eggs",
+          "grams": 200
+        },
+        {
+          "food": "whole wheat bread",
+          "grams": 60
+        },
+        {
+          "food": "banana",
+          "grams": 120
+        }
+      ]
+    },
+    {
+      "meal_name": "Mid-Morning Snack",
+      "foods": [
+        {
+          "food": "greek yogurt",
+          "grams": 200
+        },
+        {
+          "food": "blueberries",
+          "grams": 80
+        }
+      ]
+    },
+    {
+      "meal_name": "Lunch",
+      "foods": [
+        {
+          "food": "chicken breast cooked",
+          "grams": 250
+        },
+        {
+          "food": "brown rice cooked",
+          "grams": 200
+        },
+        {
+          "food": "broccoli cooked",
+          "grams": 150
+        }
+      ]
+    },
+    {
+      "meal_name": "Afternoon Snack",
+      "foods": [
+        {
+          "food": "cottage cheese low fat",
+          "grams": 150
+        },
+        {
+          "food": "apple",
+          "grams": 150
+        }
+      ]
+    },
+    {
+      "meal_name": "Dinner",
+      "foods": [
+        {
+          "food": "ground chicken cooked",
+          "grams": 220
+        },
+        {
+          "food": "white rice cooked",
+          "grams": 180
+        },
+        {
+          "food": "spinach raw",
+          "grams": 100
+        },
+        {
+          "food": "peanut butter",
+          "grams": 20
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+"meal_plan": [
+{
+"meal_name": "Breakfast",
+"foods": [
+{
+"food": "egg white raw",
+"grams": 300
+},
+{
+"food": "greek yogurt",
+"grams": 300
+},
+{
+"food": "banana",
+"grams": 120
+}
+]
+},
+{
+"meal_name": "Lunch",
+"foods": [
+{
+"food": "chicken breast cooked",
+"grams": 250
+},
+{
+"food": "white rice cooked",
+"grams": 250
+},
+{
+"food": "broccoli cooked",
+"grams": 150
+}
+]
+},
+{
+"meal_name": "Dinner",
+"foods": [
+{
+"food": "ground chicken cooked",
+"grams": 250
+},
+{
+"food": "sweet potato baked",
+"grams": 250
+},
+{
+"food": "zucchini cooked",
+"grams": 150
+}
+]
+},
+{
+"meal_name": "Snack",
+"foods": [
+{
+"food": "cottage cheese low fat",
+"grams": 250
+},
+{
+"food": "peanut butter",
+"grams": 25
+}
+]
+}
+]
+}
