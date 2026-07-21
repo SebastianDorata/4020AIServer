@@ -2,6 +2,8 @@
 
 # LOTS OF REWORKING NEEDS TO BE DONE
 # DATASET ROWS ARE COMPLETELY INCORRECT, NEED TO FIND NEW DATASET.
+
+NEW DATASET = https://www.kaggle.com/datasets/waltonj/usda-myfooddata-nutrition-facts-2020
 Which means I need to rework, tables/rows, sql logic, etc.
 
 Features so far although sample meal calories and macros are incorrect because database values are insane:
