@@ -4,16 +4,16 @@
 # DATASET ROWS ARE COMPLETELY INCORRECT, NEED TO FIND NEW DATASET.
 
 NEW DATASET = https://www.kaggle.com/datasets/waltonj/usda-myfooddata-nutrition-facts-2020
-Which means I need to rework, tables/rows, sql logic, etc.
+<br> Which means I need to rework, tables/rows, sql logic, etc.
 
 Features so far although sample meal calories and macros are incorrect because database values are insane:
 
-Server has 3 pages:
-"/" - home page, get displays form, post submits it and goes to results page
-"/about" - about page, student id details
+Server has 3 pages: <br>
+"/" - home page, get displays form, post submits it and goes to results page <br>
+"/about" - about page, student id details <br>
 
-Server can take user attributes calculate TDEE, obtain target calories and macros. 
-Can generate plan with those values and result page displays the targets, user info, and eventually meal plan.
+Server can take user attributes calculate TDEE, obtain target calories and macros. <br>
+Can generate plan with those values and result page displays the targets, user info, and eventually meal plan. <br>
 
 TO-DO:
 - Change/style website again, uses an old project I made as a reference
