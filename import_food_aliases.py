@@ -1,6 +1,11 @@
+# ONLY ONE RUN NEEDED, IF NUTRITION.DB IS PRESENT DATA IS ALREADY THERE
+# ****************************************** ALREADY RAN DON'T RUN AGAIN ******************************************
+
 from main import app
 from db import db
 from models import Food, FoodAlias
+
+# Aliases to correctly match ai picked foods with actual db entities
 
 aliases = [
     {

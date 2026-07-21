@@ -1,9 +1,8 @@
 {% include "header.html" %}
 
-<!-- Page Header -->
 <header
         class="masthead"
-        style="background-image: url('../static/assets/img/result-bg.jpg')"
+        style="background-image: url('../static/assets/img/bg_nutrition.png')"
 >
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -20,7 +19,6 @@
 </header>
 
 
-<!-- Main Content -->
 <main class="mb-4">
 
     <div class="container px-4 px-lg-5">
@@ -88,25 +86,30 @@
                 </div>
 
 
+
                 <!-- User Info -->
                 <div class="card mb-4">
                     <div class="card-body">
 
                         <h4>User Information</h4>
 
-                        <p>Age:
+                        <p>
+                            Age:
                             <strong>{{ profile.age }}</strong>
                         </p>
 
-                        <p>Gender:
+                        <p>
+                            Gender:
                             <strong>{{ profile.gender.title() }}</strong>
                         </p>
 
-                        <p>Height:
+                        <p>
+                            Height:
                             <strong>{{ height_display }}ches</strong>
                         </p>
 
-                        <p>Weight:
+                        <p>
+                            Weight:
                             <strong>{{ profile.weight_lbs }} lbs</strong>
                         </p>
 
@@ -114,10 +117,12 @@
                 </div>
 
 
+
                 <!-- AI Meal Plan -->
                 <h2 class="text-center mb-4">
                     AI Meal Plan
                 </h2>
+
 
                 {% for meal in meal_plan.meals %}
 
@@ -127,10 +132,10 @@
 
                         <h4>{{ meal.meal_name }}</h4>
 
+
                         <table class="table table-striped">
 
                             <thead>
-
                             <tr>
                                 <th>Food</th>
                                 <th>Grams</th>
@@ -139,8 +144,8 @@
                                 <th>Carbs</th>
                                 <th>Fat</th>
                             </tr>
-
                             </thead>
+
 
                             <tbody>
 
@@ -163,7 +168,9 @@
 
                         </table>
 
+
                         <hr>
+
 
                         <div class="row text-center">
 
@@ -193,7 +200,10 @@
 
                 </div>
 
+
                 {% endfor %}
+
+
 
 
                 <!-- Daily AI Totals -->
@@ -203,6 +213,7 @@
 
                         <h4>Daily Meal Totals</h4>
 
+
                         <div class="row text-center">
 
                             <div class="col-md-3">
@@ -210,15 +221,18 @@
                                 {{ meal_plan.daily_totals.calories }}
                             </div>
 
+
                             <div class="col-md-3">
                                 <strong>Protein</strong><br>
                                 {{ meal_plan.daily_totals.protein }} g
                             </div>
 
+
                             <div class="col-md-3">
                                 <strong>Carbohydrates</strong><br>
                                 {{ meal_plan.daily_totals.carbs }} g
                             </div>
+
 
                             <div class="col-md-3">
                                 <strong>Fat</strong><br>
@@ -231,11 +245,172 @@
 
                 </div>
 
+
+
+<h2 class="text-center mb-4">
+                    Report - Calculated vs Generated
+                </h2>
+
+                <!-- Nutrition Comparison -->
+
+                <div class="card mb-5">
+
+                    <div class="card-body">
+
+                        <h4 class="text-center mb-4">
+                            Nutrition Comparison
+                        </h4>
+
+
+                        <table class="table table-bordered text-center">
+
+                            <thead>
+
+                            <tr>
+                                <th>Nutrient</th>
+                                <th>Target</th>
+                                <th>Actual</th>
+                                <th>Difference</th>
+                            </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                            <tr>
+                                <td>Calories</td>
+                                <td>{{ profile.target_calories }} kcal</td>
+                                <td>{{ meal_plan.daily_totals.calories }} kcal</td>
+                                <td>
+                                    {{ ((meal_plan.daily_totals.calories - profile.target_calories) / profile.target_calories * 100)|round(1) }}%
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Protein</td>
+                                <td>{{ profile.protein }} g</td>
+                                <td>{{ meal_plan.daily_totals.protein }} g</td>
+                                <td>
+                                    {{ ((meal_plan.daily_totals.protein - profile.protein) / profile.protein * 100)|round(1) }}%
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Carbohydrates</td>
+                                <td>{{ profile.carbs }} g</td>
+                                <td>{{ meal_plan.daily_totals.carbs }} g</td>
+                                <td>
+                                    {{ ((meal_plan.daily_totals.carbs - profile.carbs) / profile.carbs * 100)|round(1) }}%
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Fat</td>
+                                <td>{{ profile.fat }} g</td>
+                                <td>{{ meal_plan.daily_totals.fat }} g</td>
+                                <td>
+                                    {{ ((meal_plan.daily_totals.fat - profile.fat) / profile.fat * 100)|round(1) }}%
+                                </td>
+                            </tr>
+
+
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+                <!-- Macro Charts -->
+
+                <div class="card mb-5">
+
+                    <div class="card-body">
+
+                        <h4 class="text-center mb-4">
+                            Macronutrient Distribution
+                        </h4>
+
+
+                        <div class="row text-center">
+
+
+                            <div class="col-md-6">
+
+                                <h5>
+                                    Target Macros
+                                </h5>
+
+                                <canvas id="targetMacroChart" style="max-height:300px;"></canvas>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <h5>
+                                    Generated Macros
+                                </h5>
+
+                                <canvas id="actualMacroChart" style="max-height:300px;"></canvas>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
             </div>
         </div>
 
     </div>
 
 </main>
+
+
+<!-- Scripts for pie charts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script>
+
+createMacroChart(
+    "targetMacroChart",
+    [
+        {{ profile.protein }} * 4,
+        {{ profile.carbs }} * 4,
+        {{ profile.fat }} * 9
+    ]
+);
+
+
+createMacroChart(
+    "actualMacroChart",
+    [
+        {{ meal_plan.daily_totals.protein }} * 4,
+        {{ meal_plan.daily_totals.carbs }} * 4,
+        {{ meal_plan.daily_totals.fat }} * 9
+    ]
+);
+
+</script>
+
+
 
 {% include "footer.html" %}

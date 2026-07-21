@@ -12,6 +12,7 @@ file = "dataset/MyFoodData-Nutrition-Facts-SpreadSheet-Release-1-4.csv"
 
 with app.app_context():
 
+
     df = pd.read_csv(file, skiprows=3)
 
     for _, row in df.iterrows():

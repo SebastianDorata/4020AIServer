@@ -1,33 +1,23 @@
-
 {
   "meal_plan": [
     {
       "meal_name": "Breakfast",
       "foods": [
         {
-          "food": "scrambled eggs",
-          "grams": 200
-        },
-        {
-          "food": "whole wheat bread",
+          "food": "oats",
           "grams": 60
         },
         {
           "food": "banana",
-          "grams": 120
-        }
-      ]
-    },
-    {
-      "meal_name": "Mid-Morning Snack",
-      "foods": [
+          "grams": 118
+        },
         {
-          "food": "greek yogurt",
+          "food": "nonfat greek yogurt",
           "grams": 200
         },
         {
-          "food": "blueberries",
-          "grams": 80
+          "food": "almonds",
+          "grams": 25
         }
       ]
     },
@@ -35,29 +25,20 @@
       "meal_name": "Lunch",
       "foods": [
         {
-          "food": "chicken breast cooked",
-          "grams": 250
+          "food": "chicken breast",
+          "grams": 220
         },
         {
-          "food": "brown rice cooked",
-          "grams": 200
+          "food": "white rice",
+          "grams": 240
         },
         {
-          "food": "broccoli cooked",
-          "grams": 150
-        }
-      ]
-    },
-    {
-      "meal_name": "Afternoon Snack",
-      "foods": [
-        {
-          "food": "cottage cheese low fat",
-          "grams": 150
+          "food": "broccoli",
+          "grams": 180
         },
         {
-          "food": "apple",
-          "grams": 150
+          "food": "olive oil",
+          "grams": 8
         }
       ]
     },
@@ -65,20 +46,24 @@
       "meal_name": "Dinner",
       "foods": [
         {
-          "food": "ground chicken cooked",
-          "grams": 220
-        },
-        {
-          "food": "white rice cooked",
+          "food": "salmon",
           "grams": 180
         },
         {
-          "food": "spinach raw",
-          "grams": 100
+          "food": "sweet potato",
+          "grams": 280
+        },
+        {
+          "food": "asparagus",
+          "grams": 180
+        },
+        {
+          "food": "egg whites",
+          "grams": 200
         },
         {
           "food": "peanut butter",
-          "grams": 20
+          "grams": 18
         }
       ]
     }

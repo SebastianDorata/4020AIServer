@@ -136,6 +136,7 @@ def create_nutrition_profile(age, gender, height, weight, activity, goal):
 # 1. Curated Aliases
 # 2. Exact match fallback
 
+# Possibly add more fallbacks in-case deepseek or whatever model isn't so great.
 
 def get_food_info(food_name):
 
@@ -183,7 +184,8 @@ def calculate_food_nutrition(food_name, grams):
     multiplier = grams / 100
 
     return {
-        "food": food.food_name,
+        "food": food_name.title(),
+        #"food": food.food_name, (this gave the db name of the food, looked ugly)
         "grams": grams,
         "calories": round(food.calories * multiplier, 2),
         "protein": round(food.protein * multiplier, 2),
@@ -284,18 +286,7 @@ def home():
 
     form = DietForm()
 
-    test_foods = [
-        "banana",
-        "rice",
-        "chicken breast",
-        "salmon",
-        "egg whites"
-    ]
-
-    for item in test_foods:
-        food_item = get_food_info(item)
-        print(item, "=>", food_item.food_name if food_item else "NOT FOUND")
-
+    # Runs if code if user submits form
     if form.validate_on_submit():
 
         # Weight conversion
@@ -312,7 +303,9 @@ def home():
             form.goal.data
         )
 
+        # Sample meals, can swap to see different values
 
+        #sample_meal = load_sample_meal("sample_data/sample_meal_claude_haiku_4_5.json")
         sample_meal = load_sample_meal("sample_data/sample_meal_gpt_mini.json")
 
 
@@ -320,9 +313,6 @@ def home():
         meal_plan = calculate_daily_meal_nutrition(
             sample_meal
         )
-
-        print(nutrition_profile)
-        print(meal_plan)
 
         # Added just to maintain feet / inches separation.
         height_display = dict(form.height.choices).get(form.height.data)
