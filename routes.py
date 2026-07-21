@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 from forms import DietForm
-from models import Food
+from models import Food, FoodAlias
 from db import db
 
 # Temp imports for sample data
@@ -132,33 +132,40 @@ def create_nutrition_profile(age, gender, height, weight, activity, goal):
 
 
 # Queries database for food nutrition information
+# Priority:
+# 1. Curated Aliases
+# 2. Exact match fallback
+
+
 def get_food_info(food_name):
 
     normalized = food_name.strip().lower()
 
-    # 1. Exact case-insensitive match
+
+    # 1. Check curated aliases first
+    alias = db.session.execute(
+        db.select(FoodAlias)
+        .where(
+            db.func.lower(FoodAlias.search_term) == normalized
+        )
+    ).scalar_one_or_none()
+
+
+    if alias:
+        return db.session.get(
+            Food,
+            alias.food_id
+        )
+
+
+    # 2. Existing exact match fallback
     food = db.session.execute(
         db.select(Food)
-        .where(db.func.lower(Food.food_name) == normalized)
-    ).scalars().first()
+        .where(
+            db.func.lower(Food.food_name) == normalized
+        )
+    ).scalar_one_or_none()
 
-    if food:
-        return food
-
-    # 2. Starts-with match
-    food = db.session.execute(
-        db.select(Food)
-        .where(db.func.lower(Food.food_name).like(f"{normalized}%"))
-    ).scalars().first()
-
-    if food:
-        return food
-
-    # 3. Contains match as fallback
-    food = db.session.execute(
-        db.select(Food)
-        .where(db.func.lower(Food.food_name).like(f"%{normalized}%"))
-    ).scalars().first()
 
     return food
 
@@ -276,6 +283,19 @@ def load_sample_meal(filename):
 def home():
 
     form = DietForm()
+
+    test_foods = [
+        "banana",
+        "rice",
+        "chicken breast",
+        "salmon",
+        "egg whites"
+    ]
+
+    for item in test_foods:
+        food_item = get_food_info(item)
+        print(item, "=>", food_item.food_name if food_item else "NOT FOUND")
+
     if form.validate_on_submit():
 
         # Weight conversion

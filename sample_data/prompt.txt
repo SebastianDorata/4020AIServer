@@ -21,190 +21,300 @@ User Profile:
   }
 }
 
+Create a realistic weight-loss meal plan that matches the user's calorie target while using common foods and realistic portions.
 
-## PRIMARY OBJECTIVE (MOST IMPORTANT)
+IMPORTANT PRIORITY ORDER:
 
-Create a meal plan where the FINAL DAILY CALORIES are as close as possible to:
+1. Match daily calories.
+2. Match protein reasonably close.
+3. Balance carbohydrates and fats.
+4. Maintain realistic meals.
 
-2263 calories
+Do not sacrifice calorie accuracy to increase protein.
 
-Calories are the highest priority.
+---
 
-The calorie target MUST NOT be exceeded by more than 5%.
+## 1. CALORIE TARGET (HIGHEST PRIORITY)
 
-A meal plan that is within the calorie target but has imperfect macros is better than a meal plan that matches macros but exceeds calories.
+The user's target calories are the goal.
 
-Priority order:
+Do NOT use maintenance calories as the meal plan target.
 
-1. Match total calories
-2. Match protein
-3. Match carbohydrates
-4. Match fat
+The final meal plan must target:
 
+Approximately 2263 kcal/day.
 
-## CALORIE CONTROL RULES
+Before returning the answer, internally:
 
-Treat calories as a strict daily budget.
-
-Target:
-Approximately 2263 calories.
+1. Estimate calories for every food item.
+2. Add all meals together.
+3. Compare the total against the calorie target.
+4. Adjust food quantities until the total calories are within ±5%.
 
 Acceptable range:
-2150-2375 calories.
 
-DO NOT create meal plans above 2400 calories.
+2150-2375 kcal.
 
-If protein targets cannot be reached without exceeding calories:
-- Keep calories correct.
-- Allow protein to be lower.
+Prefer staying close to 2263 kcal.
 
-Never add extra foods just to increase protein if calories are already near the target.
+Do not exceed the calorie target significantly.
 
-Never add extra carbohydrates, fats, or protein after calories are already satisfied.
+---
 
+## 2. REQUIRED FINAL CALORIE VALIDATION
 
-## MACRO GUIDELINES
+This validation step is mandatory.
 
-Protein target:
-Approximately 213g
+After creating the meal plan:
 
-Protein is important, but secondary to calories.
+Internally calculate:
 
-A realistic acceptable result:
-180-220g protein.
+- Total calories
+- Total protein
+- Total carbohydrates
+- Total fat
 
-Carbohydrates and fats can vary.
+If calories are outside the acceptable range:
 
-Do not force carbohydrate or fat targets if doing so causes calories to exceed the limit.
+DO NOT return the meal plan.
 
+Instead:
+- Reduce or increase portions.
+- Recalculate totals.
+- Repeat until the calorie target is satisfied.
 
-## MEAL STRUCTURE
+Only return the final JSON after the calorie requirement is met.
 
-Create only 3-4 meals.
+---
 
-Avoid unnecessary snacks.
+## 3. CALORIE DISTRIBUTION
 
-Use practical meals that a normal person could prepare.
+Create exactly 3 meals:
 
-Prefer repeating foods instead of adding variety.
+- Breakfast
+- Lunch
+- Dinner
 
+Do not create snacks or additional meals.
 
-## FOOD DATABASE COMPATIBILITY
+Distribute calories realistically:
 
-The generated foods will be matched against a nutrition database.
+Breakfast:
+- Approximately 20-30% of daily calories.
 
-Every food name MUST directly match a database row.
+Lunch:
+- Approximately 30-40% of daily calories.
 
-Rules:
+Dinner:
+- Approximately 30-40% of daily calories.
 
-- Use simple standardized database-style names.
-- Use lowercase food names.
-- Do not use brand names.
-- Do not use recipes.
-- Do not combine foods into meals.
-- Do not add descriptors that may not exist in the database.
+Avoid one extremely large meal.
 
-Bad:
-- "healthy chicken bowl"
-- "protein smoothie"
-- "skinless chicken breast"
-- "chicken with rice"
+No single meal should exceed 45% of daily calories.
 
-Good:
-- "chicken breast cooked"
-- "white rice cooked"
-- "sweet potato baked"
-- "greek yogurt"
-- "tuna canned"
+The meal plan should resemble a realistic weight-loss diet, not a bodybuilding bulk/cut plan.
 
+---
 
-## VALIDATED FOOD POOL
+## 4. MACRONUTRIENTS
 
-Prefer these foods:
+Protein:
 
-Proteins:
-- chicken breast cooked
-- ground chicken cooked
-- ground beef cooked
-- beef top sirloin steak cooked
-- tuna canned
-- ground turkey raw
-- greek yogurt
-- cottage cheese creamed
-- cottage cheese low fat
-- cottage cheese nonfat
-- scrambled eggs
-- egg white raw
+Target:
+Approximately 213g/day.
+
+Acceptable range:
+190-220g/day.
+
+Do not add unnecessary protein after this range is reached.
+
+Spread protein across the three meals.
+
+Avoid stacking multiple large protein sources in one meal.
+
+Avoid combinations like:
+
+- Large chicken serving + cottage cheese + eggs
+- Large fish serving + protein-heavy dairy + egg whites
+
+Prefer one main protein source per meal.
+
+---
+
+Carbohydrates and fats:
+
+Keep reasonably close to:
 
 Carbohydrates:
-- brown rice cooked
-- white rice cooked
-- pasta cooked
-- sweet potato baked
-- potato baked
-- whole wheat bread
-- banana
-- apple
-- blueberries
-- strawberries
+211g/day
 
-Vegetables:
-- broccoli cooked
-- spinach raw
-- kale raw
-- carrots raw
-- iceberg lettuce
-- romaine lettuce
-- tomato cooked
-- onion cooked
-- zucchini cooked
-- mushrooms
+Fat:
+63g/day
+
+Balance naturally.
+
+Do not add unnecessary fats just to increase calories.
+
+---
+
+## 5. PORTION GUIDELINES
+
+Use realistic serving sizes.
+
+Protein:
+
+- Chicken, turkey, beef, fish:
+  120-200g cooked per meal.
+
+Carbohydrates:
+
+- Rice, pasta, potatoes:
+  100-250g cooked per serving.
+
+- Oats:
+  40-70g dry.
 
 Fats:
+
+Measure carefully:
+
+- Olive oil
+- Peanut butter
+- Nuts
+- Avocado
+- Cheese
+
+Avoid combining multiple calorie-dense fat sources in the same meal.
+
+Examples:
+
+If using salmon:
+- Avoid adding large amounts of olive oil, nuts, or avocado.
+
+If using peanut butter or nuts:
+- Reduce other fat sources.
+
+If using olive oil:
+- Do not automatically add avocado unless needed.
+
+---
+
+## 6. FOOD SELECTION
+
+Prioritize:
+
+Protein:
+- chicken breast
+- lean ground turkey
+- lean ground beef
+- salmon
+- tuna
+- eggs
+- egg whites
+- greek yogurt
+- cottage cheese
+
+Carbohydrates:
+- white rice
+- brown rice
+- oats
+- potatoes
+- sweet potatoes
+- pasta
+- fruits
+
+Vegetables:
+- broccoli
+- spinach
+- asparagus
+- green beans
+- carrots
+- mixed vegetables
+
+Healthy fats:
+- olive oil
+- avocado
+- almonds
 - peanut butter
 
+Avoid:
 
-## FOOD SELECTION STRATEGY
+- Restaurant meals
+- Fast food
+- Recipes
+- Mixed dishes
+- Meal prep bowls
+- Protein bowls
+- Unrealistic bodybuilding diets
 
-Use foods with predictable calories.
+Use individual ingredients only.
 
-Build meals in this order:
+---
 
-1. Add lean protein sources.
-2. Add carbohydrate sources until calories are close.
-3. Add small amounts of fats only if needed.
+## 7. DATABASE COMPATIBILITY
+
+Food names must be simple and compatible with a nutrition database.
+
+Use names like:
+
+Good:
+- "chicken breast"
+- "white rice"
+- "banana"
+- "nonfat greek yogurt"
+- "olive oil"
+- "salmon"
 
 Avoid:
-- Too many fruits.
-- Too many carbohydrate sources.
-- Large amounts of calorie-dense fats.
-- High-fat meats unless required.
 
+- "high protein chicken bowl"
+- "chicken stir fry"
+- "homemade burrito"
+- "special recipe meals"
 
-## IMPORTANT
+Do not include recipes or combined dishes.
 
-Do NOT calculate calories or macros.
+---
 
-Only output:
+## 8. DATABASE FOOD SELECTION
 
-- food name
-- grams
+Prefer simple database entries.
 
-The nutrition database will calculate:
-- calories
-- protein
-- carbohydrates
-- fat
+Avoid foods containing:
 
+- added oils
+- added butter
+- sauces
+- restaurant preparations
+- unknown ingredients
 
-## OUTPUT FORMAT
+Prefer:
+
+- raw or plain versions when appropriate
+- lean versions when available
+- common grocery store foods
+
+Examples:
+
+Prefer:
+- "egg whites (raw)"
+
+Avoid:
+- "egg whites cooked with added fat"
+
+Prefer:
+- "lowfat cottage cheese"
+
+Avoid:
+- full-fat versions unless needed.
+
+---
+
+## 9. RETURN FORMAT
 
 Return ONLY valid JSON.
 
-No markdown.
-No explanations.
-
-Use exactly:
+Format:
 
 {
   "meal_plan": [
@@ -212,8 +322,26 @@ Use exactly:
       "meal_name": "Breakfast",
       "foods": [
         {
-          "food": "greek yogurt",
-          "grams": 300
+          "food": "food name",
+          "grams": number
+        }
+      ]
+    },
+    {
+      "meal_name": "Lunch",
+      "foods": [
+        {
+          "food": "food name",
+          "grams": number
+        }
+      ]
+    },
+    {
+      "meal_name": "Dinner",
+      "foods": [
+        {
+          "food": "food name",
+          "grams": number
         }
       ]
     }

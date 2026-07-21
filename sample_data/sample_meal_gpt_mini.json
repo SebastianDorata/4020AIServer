@@ -1,68 +1,75 @@
 {
-"meal_plan": [
-{
-"meal_name": "Breakfast",
-"foods": [
-{
-"food": "egg white raw",
-"grams": 300
-},
-{
-"food": "greek yogurt",
-"grams": 300
-},
-{
-"food": "banana",
-"grams": 120
-}
-]
-},
-{
-"meal_name": "Lunch",
-"foods": [
-{
-"food": "chicken breast cooked",
-"grams": 250
-},
-{
-"food": "white rice cooked",
-"grams": 250
-},
-{
-"food": "broccoli cooked",
-"grams": 150
-}
-]
-},
-{
-"meal_name": "Dinner",
-"foods": [
-{
-"food": "ground chicken cooked",
-"grams": 250
-},
-{
-"food": "sweet potato baked",
-"grams": 250
-},
-{
-"food": "zucchini cooked",
-"grams": 150
-}
-]
-},
-{
-"meal_name": "Snack",
-"foods": [
-{
-"food": "cottage cheese low fat",
-"grams": 250
-},
-{
-"food": "peanut butter",
-"grams": 25
-}
-]
-}
-]
+  "meal_plan": [
+    {
+      "meal_name": "Breakfast",
+      "foods": [
+        {
+          "food": "oats",
+          "grams": 60
+        },
+        {
+          "food": "nonfat greek yogurt",
+          "grams": 300
+        },
+        {
+          "food": "banana",
+          "grams": 120
+        },
+        {
+          "food": "peanut butter",
+          "grams": 20
+        }
+      ]
+    },
+    {
+      "meal_name": "Lunch",
+      "foods": [
+        {
+          "food": "chicken breast",
+          "grams": 180
+        },
+        {
+          "food": "white rice",
+          "grams": 250
+        },
+        {
+          "food": "broccoli",
+          "grams": 150
+        },
+        {
+          "food": "olive oil",
+          "grams": 10
+        },
+        {
+          "food": "avocado",
+          "grams": 80
+        }
+      ]
+    },
+    {
+      "meal_name": "Dinner",
+      "foods": [
+        {
+          "food": "lean ground turkey",
+          "grams": 200
+        },
+        {
+          "food": "sweet potato",
+          "grams": 300
+        },
+        {
+          "food": "egg whites",
+          "grams": 250
+        },
+        {
+          "food": "green beans",
+          "grams": 150
+        },
+        {
+          "food": "olive oil",
+          "grams": 10
+        }
+      ]
+    }
+  ]
 }
