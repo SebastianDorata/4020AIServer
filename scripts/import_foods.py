@@ -3,12 +3,11 @@
 
 import pandas as pd
 
-from main import app
-from db import db
-from models import Food, FoodAlias
+from main.main import app
+from main.db import db
+from main.models import Food
 
-
-file = "dataset/MyFoodData-Nutrition-Facts-SpreadSheet-Release-1-4.csv"
+file = "../dataset/MyFoodData-Nutrition-Facts-SpreadSheet-Release-1-4.csv"
 
 with app.app_context():
 
