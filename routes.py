@@ -1,15 +1,10 @@
 from flask import Blueprint, render_template
 from forms import DietForm
-from models import Food, FoodAlias
-from db import db
+from providers.ollama_provider import OllamaMealPlanProvider
+from services.evaluation import evaluate_plan
 
 from core.data_classes import MacroTarget
 from services.meal_plan_service import MealPlanService
-from providers.sample_provider import SampleMealPlanProvider
-
-# Temp imports for sample data
-import json
-import os
 
 # Flask Blueprint for main.py to register
 route_controller = Blueprint(
@@ -142,7 +137,7 @@ def home():
 
     form = DietForm()
 
-    # Runs if code if user submits form
+    # Runs if the user submits a form
     if form.validate_on_submit():
 
         # Weight conversion
@@ -159,8 +154,6 @@ def home():
             form.goal.data
         )
 
-        # AI feature: swapping providers (Sample -> Groq -> Ollama) only
-        # ever changes this one line, nothing else in this route changes.
         target = MacroTarget(
             calories=nutrition_profile["target_calories"],
             protein_g=nutrition_profile["protein"],
@@ -168,8 +161,11 @@ def home():
             fat_g=nutrition_profile["fat"],
         )
 
-        meal_plan_service = MealPlanService(SampleMealPlanProvider())
+        meal_plan_service = MealPlanService(OllamaMealPlanProvider())
         meal_plan = meal_plan_service.build_plan(target, available_foods=[])
+
+        # Evaluate how closely the generated plan matches the target
+        evaluation = evaluate_plan(target, meal_plan)
 
         # Added just to maintain feet / inches separation.
         height_display = dict(form.height.choices).get(form.height.data)
@@ -178,8 +174,8 @@ def home():
             "result.html",
             profile=nutrition_profile,
             height_display=height_display,
-            meal_plan=meal_plan
-
+            meal_plan=meal_plan,
+            evaluation=evaluation
         )
 
     return render_template(

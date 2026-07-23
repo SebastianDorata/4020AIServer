@@ -149,16 +149,16 @@
 
                             <tbody>
 
-                            {% for food in meal.nutrition.foods %}
+                            {% for food in meal.items %}
 
                             <tr>
 
-                                <td>{{ food.food }}</td>
-                                <td>{{ food.grams }}</td>
+                                <td>{{ food.food_name }}</td>
+                                <td>{{ food.portion_grams }}</td>
                                 <td>{{ food.calories }}</td>
-                                <td>{{ food.protein }}</td>
-                                <td>{{ food.carbs }}</td>
-                                <td>{{ food.fat }}</td>
+                                <td>{{ food.protein_g }}</td>
+                                <td>{{ food.carbs_g }}</td>
+                                <td>{{ food.fat_g }}</td>
 
                             </tr>
 
@@ -176,22 +176,22 @@
 
                             <div class="col-md-3">
                                 <strong>Calories</strong><br>
-                                {{ meal.nutrition.total_calories }}
+                                {{ meal.total_calories }}
                             </div>
 
                             <div class="col-md-3">
                                 <strong>Protein</strong><br>
-                                {{ meal.nutrition.total_protein }} g
+                                {{ meal.total_protein_g }} g
                             </div>
 
                             <div class="col-md-3">
                                 <strong>Carbs</strong><br>
-                                {{ meal.nutrition.total_carbs }} g
+                                {{ meal.total_carbs_g }} g
                             </div>
 
                             <div class="col-md-3">
                                 <strong>Fat</strong><br>
-                                {{ meal.nutrition.total_fat }} g
+                                {{ meal.total_fat_g }} g
                             </div>
 
                         </div>
@@ -218,25 +218,25 @@
 
                             <div class="col-md-3">
                                 <strong>Calories</strong><br>
-                                {{ meal_plan.daily_totals.calories }}
+                                {{ meal_plan.total_calories }}
                             </div>
 
 
                             <div class="col-md-3">
                                 <strong>Protein</strong><br>
-                                {{ meal_plan.daily_totals.protein }} g
+                                {{ meal_plan.total_protein_g }} g
                             </div>
 
 
                             <div class="col-md-3">
                                 <strong>Carbohydrates</strong><br>
-                                {{ meal_plan.daily_totals.carbs }} g
+                                {{ meal_plan.total_carbs_g }} g
                             </div>
 
 
                             <div class="col-md-3">
                                 <strong>Fat</strong><br>
-                                {{ meal_plan.daily_totals.fat }} g
+                                {{ meal_plan.total_fat_g }} g
                             </div>
 
                         </div>
@@ -282,9 +282,9 @@
                             <tr>
                                 <td>Calories</td>
                                 <td>{{ profile.target_calories }} kcal</td>
-                                <td>{{ meal_plan.daily_totals.calories }} kcal</td>
+                                <td>{{ meal_plan.total_calories }} kcal</td>
                                 <td>
-                                    {{ ((meal_plan.daily_totals.calories - profile.target_calories) / profile.target_calories * 100)|round(1) }}%
+                                    {{ ((meal_plan.total_calories - profile.target_calories) / profile.target_calories * 100)|round(1) }}%
                                 </td>
                             </tr>
 
@@ -292,9 +292,9 @@
                             <tr>
                                 <td>Protein</td>
                                 <td>{{ profile.protein }} g</td>
-                                <td>{{ meal_plan.daily_totals.protein }} g</td>
+                                <td>{{ meal_plan.total_protein_g }} g</td>
                                 <td>
-                                    {{ ((meal_plan.daily_totals.protein - profile.protein) / profile.protein * 100)|round(1) }}%
+                                    {{ ((meal_plan.total_protein_g - profile.protein) / profile.protein * 100)|round(1) }}%
                                 </td>
                             </tr>
 
@@ -302,9 +302,9 @@
                             <tr>
                                 <td>Carbohydrates</td>
                                 <td>{{ profile.carbs }} g</td>
-                                <td>{{ meal_plan.daily_totals.carbs }} g</td>
+                                <td>{{ meal_plan.total_carbs_g }} g</td>
                                 <td>
-                                    {{ ((meal_plan.daily_totals.carbs - profile.carbs) / profile.carbs * 100)|round(1) }}%
+                                    {{ ((meal_plan.total_carbs_g - profile.carbs) / profile.carbs * 100)|round(1) }}%
                                 </td>
                             </tr>
 
@@ -312,9 +312,9 @@
                             <tr>
                                 <td>Fat</td>
                                 <td>{{ profile.fat }} g</td>
-                                <td>{{ meal_plan.daily_totals.fat }} g</td>
+                                <td>{{ meal_plan.total_fat_g }} g</td>
                                 <td>
-                                    {{ ((meal_plan.daily_totals.fat - profile.fat) / profile.fat * 100)|round(1) }}%
+                                    {{ ((meal_plan.total_fat_g - profile.fat) / profile.fat * 100)|round(1) }}%
                                 </td>
                             </tr>
 
@@ -403,9 +403,9 @@ createMacroChart(
 createMacroChart(
     "actualMacroChart",
     [
-        {{ meal_plan.daily_totals.protein }} * 4,
-        {{ meal_plan.daily_totals.carbs }} * 4,
-        {{ meal_plan.daily_totals.fat }} * 9
+        {{ meal_plan.total_protein_g }} * 4,
+        {{ meal_plan.total_carbs_g }} * 4,
+        {{ meal_plan.total_fat_g }} * 9
     ]
 );
 

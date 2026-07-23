@@ -1,0 +1,9 @@
+flask
+flask-sqlalchemy
+flask-bootstrap
+flask-wtf
+sqlalchemy
+pandas
+requests
+
+wtforms
