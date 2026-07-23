@@ -1,42 +1,13 @@
 services:
-  ollama:
-    image: ollama/ollama:latest
-    container_name: nutrition-ollama
-    ports:
-      - "11434:11434"          # exposed so you can debug/pull models from your host too
-    volumes:
-      - ollama_models:/root/.ollama   # persists downloaded models between restarts
-    healthcheck:
-      test: ["CMD", "ollama", "list"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # One-shot service: pulls the model once, then exits. The app waits on this.
-  ollama-pull:
-    image: ollama/ollama:latest
-    depends_on:
-      - ollama
-    entrypoint: ["/bin/sh", "-c"]
-    command: >
-      "sleep 3 &&
-       OLLAMA_HOST=ollama:11434 ollama pull llama3.2"
-    restart: "no"
-
   web:
     build: .
     container_name: nutrition-web
     ports:
       - "5001:5001"
-    depends_on:
-      ollama:
-        condition: service_healthy
-      ollama-pull:
-        condition: service_completed_successfully
     environment:
-      - OLLAMA_HOST=http://ollama:11434
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - OLLAMA_MODEL=llama3.2:1b
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
-      - ./instance:/app/instance   # keeps your sqlite db persisted on your actual machine
-
-volumes:
-  ollama_models:
+      - ./instance:/app/instance

@@ -38,6 +38,11 @@
                     requirements and create a personalized nutrition profile.
                 </p>
 
+                {% if ai_error %}
+                <div class="alert alert-warning text-center" role="alert">
+                    {{ ai_error }}
+                </div>
+                {% endif %}
 
                 <!-- Nutrition Form -->
                 {{ render_form(
@@ -52,5 +57,63 @@
     </div>
 </main>
 
+
+<!-- Loading Overlay: shown while the AI meal plan is generating -->
+<div id="loadingOverlay" class="loading-overlay d-none">
+    <div class="loading-overlay-content text-center">
+        <div class="spinner-border text-primary mb-3" style="width: 3.5rem; height: 3.5rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <h4>Generating your meal plan&hellip;</h4>
+        <p class="text-muted mb-3">
+            The AI is building your personalized plan.<br>
+            This can take up to 30 seconds.
+        </p>
+        <div class="progress" style="max-width: 320px; margin: 0 auto;">
+            <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                role="progressbar"
+                style="width: 100%"
+                aria-label="Generating meal plan"
+            ></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .loading-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, 0.92);
+    }
+    .loading-overlay-content {
+        padding: 2rem;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.querySelector('main form');
+        var overlay = document.getElementById('loadingOverlay');
+
+        if (!form || !overlay) {
+            return;
+        }
+
+        form.addEventListener('submit', function () {
+            overlay.classList.remove('d-none');
+
+            var submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Generating...';
+            }
+        });
+    });
+</script>
 
 {% include "footer.html" %}

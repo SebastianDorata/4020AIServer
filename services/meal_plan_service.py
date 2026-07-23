@@ -1,7 +1,7 @@
 from typing import List
 
 from core.data_classes import MacroTarget, FoodItem, MealPlanResult
-from core.provider import MealPlanProvidable
+from providers.provider import MealPlanProvidable
 
 
 class MealPlanService:

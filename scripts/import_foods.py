@@ -3,9 +3,9 @@
 
 import pandas as pd
 
-from main.main import app
-from main.db import db
-from main.models import Food
+from main import app
+from db import db
+from models import Food
 
 file = "../dataset/MyFoodData-Nutrition-Facts-SpreadSheet-Release-1-4.csv"
 

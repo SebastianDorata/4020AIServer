@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap5
-
+import logging
 from db import db
 from routes import route_controller
 
@@ -8,7 +8,7 @@ from routes import route_controller
 # Create Flask application
 app = Flask(__name__)
 
-
+logging.basicConfig(level=logging.INFO)
 # Flask configuration
 app.config["SECRET_KEY"] = "8BYkEfBA6O6donzWlSihBXox7C0sKR6b"
 

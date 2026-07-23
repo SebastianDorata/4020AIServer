@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 from typing import List, Optional
 
@@ -8,19 +9,29 @@ from core.data_classes import MacroTarget, FoodItem, MealPlanResult, MealPlanIte
 from db import db
 from models import Food, FoodAlias
 
+logger = logging.getLogger(__name__)
+
+
+class MealPlanGenerationError(Exception):
+    """Raised when the AI meal plan can't be generated (Ollama unreachable,
+    still loading, timed out, or returned something unparseable). Callers
+    (e.g. routes.py) can catch this and show a friendly message instead of
+    letting a raw traceback/500 reach the page."""
+
 
 class OllamaMealPlanProvider:
     """Implements MealPlanProvidable via a local/containerized Ollama model.
     No API key, no internet dependency once the model is pulled — good for
     a live demo since it can't rate-limit or go down mid-presentation.
+
+    If Ollama is unreachable, still loading, times out, or returns something
+    that can't be parsed, generate_meal_plan() raises MealPlanGenerationError
+    with a clear message instead of letting the underlying exception (a raw
+    connection error, JSON decode error, etc.) surface directly.
     """
 
-    def __init__(self, model: str = "llama3.2"):
-        self.model = model
-        # Reads OLLAMA_HOST from the environment so this works both:
-        # - inside Docker Compose (OLLAMA_HOST=http://ollama:11434)
-        # - running locally/PyCharm without Docker (falls back to localhost,
-        #   which still reaches the container via the exposed port mapping)
+    def __init__(self, model: str = None):
+        self.model = model or os.environ.get("OLLAMA_MODEL", "llama3.2:1b")
         self.host = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
 
     def generate_meal_plan(
@@ -28,33 +39,57 @@ class OllamaMealPlanProvider:
     ) -> MealPlanResult:
         prompt = self._build_prompt(target, available_foods)
 
-        response = requests.post(
-            f"{self.host}/api/generate",
-            json={
-                "model": self.model,
-                "prompt": prompt,
-                "format": "json",
-                "stream": False,
-                # Keeps the model resident in memory between requests so we
-                # don't pay the ~4s load cost again on the next request.
-                "keep_alive": "30m",
-                "options": {
-                    # Hard cap on generated tokens. Real output has been
-                    # ~200 tokens for a full 3-meal plan; 400 gives headroom
-                    # without letting a run-on generation blow up demo time.
-                    "num_predict": 400,
-                    # Prompt + response comfortably fit well under the
-                    # default 2048-token context; shrinking it reduces
-                    # per-request allocation overhead.
-                    "num_ctx": 1024,
+        try:
+            response = requests.post(
+                f"{self.host}/api/generate",
+                json={
+                    "model": self.model,
+                    "prompt": prompt,
+                    "format": "json",
+                    "stream": False,
+                    # Keeps the model resident in memory between requests so we
+                    # don't pay the ~4s load cost again on the next request.
+                    "keep_alive": "30m",
+                    "options": {
+                        # Hard cap on generated tokens. Real output has been
+                        # ~200 tokens for a full 3-meal plan; 400 gives headroom
+                        # without letting a run-on generation blow up demo time.
+                        "num_predict": 400,
+                        # Prompt + response comfortably fit well under the
+                        # default 2048-token context; shrinking it reduces
+                        # per-request allocation overhead.
+                        "num_ctx": 1024,
+                    },
                 },
-            },
-            timeout=60,
-        )
-        response.raise_for_status()
+                # (connect_timeout, read_timeout). Connect should be near-instant if Ollama is up at all, so 10s is plenty to detect
+                # "it's actually down". Generation time varies with system
+                # load and whether the model just had to reload after
+                # keep_alive expired, so read gets much more headroom.
+                timeout=(10, 120),
+            )
+            response.raise_for_status()
+        except requests.exceptions.RequestException as exc:
+            logger.warning("Ollama request failed: %s", exc)
+            raise MealPlanGenerationError(
+                "Couldn't reach the AI meal plan service. Make sure Ollama "
+                "is running and try again."
+            ) from exc
 
-        raw = json.loads(response.json()["response"])
-        return self.build_meal_plan_result(raw)
+        try:
+            raw = json.loads(response.json()["response"])
+            result = self.build_meal_plan_result(raw)
+            logger.info(
+                "Meal plan generated: %d meals, %.1f total calories, %s items per meal",
+                len(result.meals), result.total_calories,
+                [len(m.items) for m in result.meals],
+            )
+            return result
+        except (json.JSONDecodeError, KeyError, TypeError) as exc:
+            logger.warning("Ollama returned an unparseable response: %s", exc)
+            raise MealPlanGenerationError(
+                "The AI meal plan service returned something unexpected. "
+                "Please try again."
+            ) from exc
 
     @staticmethod
     def _build_prompt(target: MacroTarget, available_foods: List[FoodItem]) -> str:
@@ -80,10 +115,8 @@ Respond with ONLY valid JSON in this exact shape, no other text:
   ]
 }}"""
 
-
-
     def build_meal_plan_result(self, raw: dict) -> MealPlanResult:
-        """Same resolution + totalling logic as SampleMealPlanProvider: look each
+        """Same resolution + totalling logic as before: look each
         AI-suggested food up via the alias table, then exact-match fallback, and
         compute real calories/macros from the per-100g values in the database."""
         meals: List[Meal] = []
@@ -143,8 +176,8 @@ Respond with ONLY valid JSON in this exact shape, no other text:
 
     @staticmethod
     def resolve_food(food_name: str) -> Optional[Food]:
-        """Same two-step lookup as SampleMealPlanProvider: curated alias
-        first, then exact name match as a fallback."""
+        """Same two-step lookup as before: curated alias first, then exact
+        name match as a fallback."""
         normalized = food_name.strip().lower()
 
         alias = db.session.execute(

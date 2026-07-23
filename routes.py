@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 from forms import DietForm
-from providers.ollama_provider import OllamaMealPlanProvider
+from providers.ollama_provider import OllamaMealPlanProvider, MealPlanGenerationError
 from services.evaluation import evaluate_plan
 
 from core.data_classes import MacroTarget
@@ -162,7 +162,18 @@ def home():
         )
 
         meal_plan_service = MealPlanService(OllamaMealPlanProvider())
-        meal_plan = meal_plan_service.build_plan(target, available_foods=[])
+
+        try:
+            meal_plan = meal_plan_service.build_plan(target, available_foods=[])
+        except MealPlanGenerationError as exc:
+            # Ollama was unreachable, still loading, timed out, or returned
+            # something we couldn't parse. Show the form again with a clear
+            # message instead of letting this 500 out during a live demo.
+            return render_template(
+                "index.html",
+                form=form,
+                ai_error=str(exc)
+            )
 
         # Evaluate how closely the generated plan matches the target
         evaluation = evaluate_plan(target, meal_plan)

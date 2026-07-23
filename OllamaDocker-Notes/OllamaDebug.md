@@ -489,3 +489,7 @@ requests (e.g. during a live demo), since the model doesn't reload between them.
 
 * <sup>1</sup>https://blog.stackademic.com/my-docker-bind-mount-made-npm-install-take-47-minutes-the-vm-was-fine-c0718f513603
 * <sup>2</sup>https://www.cncf.io/blog/2023/02/02/docker-on-macos-is-slow-and-how-to-fix-it/
+
+
+---
+

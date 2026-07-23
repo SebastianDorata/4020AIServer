@@ -2,8 +2,8 @@
 # ****************************************** ALREADY RAN DON'T RUN AGAIN ******************************************
 
 from main import app
-from main.db import db
-from main.models import Food, FoodAlias
+from db import db
+from models import Food, FoodAlias
 
 # Aliases to correctly match ai picked foods with actual db entities
 
