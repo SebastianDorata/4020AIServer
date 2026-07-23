@@ -44,7 +44,7 @@ Images:
 <img width="1222" height="915" alt="image" src="https://github.com/user-attachments/assets/290c24ad-b490-4b07-8c81-c617e4c6b428" />
 <img width="921" height="796" alt="image" src="https://github.com/user-attachments/assets/31dba640-0bd4-4228-abb3-d0697e517360" />
 
-[Installation Guide](Docker_Ollama-Install.md) - Docker & Ollama setup instruction
+[Installation Guide](docs/installation.md) - Docker & Ollama setup instruction
 
 
 

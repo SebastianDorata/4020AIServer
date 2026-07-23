@@ -50,7 +50,7 @@ The `-d` flag stands for detached mode
 ---
 
 After completing the steps above, this is what you should see.
-![Initial Boot](OllamaDocker-Notes/Installation—Confirmation.png)
+![Initial Boot](../OllamaDocker-Notes/Installation—Confirmation.png)
 
 
 Once running, the Containers tab shows nutrition-ollama and nutrition-web grouped together, and you can view logs or stop/restart from there without touching the terminal again.
