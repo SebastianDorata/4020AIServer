@@ -24,9 +24,9 @@ def initialize_ollama_model():
             break
         except Exception:
             if attempt == max_retries - 1:
-                print("❌ Error: Could not connect to Ollama service. Is it running?")
+                print(" Error: Could not connect to Ollama service. Is it running?")
                 return False
-            print(f"⏳ Waiting for Ollama engine to initialize (Attempt {attempt + 1}/{max_retries})...")
+            print(f" Waiting for Ollama engine to initialize (Attempt {attempt + 1}/{max_retries})...")
             time.sleep(3)
 
     # 3. Check if target model exists locally
@@ -34,12 +34,12 @@ def initialize_ollama_model():
         print(f"Checking for model profile: '{model_name}'...")
         # Use built-in SDK logic to see if model exists
         client.show(model_name)
-        print(f"✅ Model '{model_name}' is verified and ready for execution.")
+        print(f" Model '{model_name}' is verified and ready for execution.")
         return True
     except ResponseError as e:
         # Status code 404 indicates the server is active, but the model hasn't been pulled yet
         if e.status_code == 404:
-            print(f"📥 Model '{model_name}' not found. Initializing automated download stream...")
+            print(f" Model '{model_name}' not found. Initializing automated download stream...")
             try:
                 # Stream the pull status directly to the console logs
                 current_status = ""
@@ -48,13 +48,13 @@ def initialize_ollama_model():
                     if status != current_status:
                         print(f" -> {status}")
                         current_status = status
-                print(f"✅ Successfully downloaded and compiled '{model_name}'!")
+                print(f" Successfully downloaded and compiled '{model_name}'!")
                 return True
             except Exception as pull_err:
-                print(f"❌ Failed to download model: {pull_err}")
+                print(f" Failed to download model: {pull_err}")
                 return False
         else:
-            print(f"❌ Server communication error: {e}")
+            print(f" Server communication error: {e}")
             return False
 
 

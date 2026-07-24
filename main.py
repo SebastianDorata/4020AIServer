@@ -66,7 +66,7 @@ def ensure_ollama_and_model():
             time.sleep(4)
 
     if not connected:
-        print(f"❌ Error: Cannot connect to Ollama service at {ollama_host}.")
+        print(f" Error: Cannot connect to Ollama service at {ollama_host}.")
         return
 
     # 3. Model download validation check
@@ -75,19 +75,19 @@ def ensure_ollama_and_model():
         check_resp = requests.post(f"{ollama_host}/api/show", json={"name": model_name}, timeout=5)
 
         if check_resp.status_code == 200:
-            print(f"✅ Model '{model_name}' is verified and active.")
+            print(f" Model '{model_name}' is verified and active.")
         else:
             # Model is missing (404), trigger stream pull download
-            print(f"📥 Model '{model_name}' not found. Initializing automated download...")
+            print(f" Model '{model_name}' not found. Initializing automated download...")
             pull_resp = requests.post(f"{ollama_host}/api/pull", json={"name": model_name}, stream=True, timeout=None)
 
             for line in pull_resp.iter_lines():
                 if line:
                     print(f" -> {line.decode('utf-8')}")
-            print(f"✅ Successfully pulled '{model_name}'!")
+            print(f" Successfully pulled '{model_name}'!")
 
     except Exception as err:
-        print(f"⚠️ Error verifying or downloading the model payload: {err}")
+        print(f" Error verifying or downloading the model payload: {err}")
 
 
 def stop_ollama_local():

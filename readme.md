@@ -255,3 +255,5 @@ Go to [http://localhost:5001](http://localhost:5001) in your browser.
  
 * [Ollama](https://ollama.com/)
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+* AI usage for debugging and idea generation .
